@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>큰 글씨 디지털 시계</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#000000">
+    <link rel="apple-touch-icon" href="icon-192x192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <style>
         body, html {
             height: 100%;
@@ -59,6 +64,18 @@
 <body>
     <div id="clock"></div>
     <script>
+        // 서비스 워커 등록
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker 등록 성공:', registration.scope);
+                    })
+                    .catch(err => {
+                        console.log('ServiceWorker 등록 실패:', err);
+                    });
+            });
+        }
         function updateClock() {
             const now = new Date();
             const hours = String(now.getHours()).padStart(2, '0');
