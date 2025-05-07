@@ -20,10 +20,38 @@
             font-size: 16vw;
             text-align: center;
             white-space: nowrap;
+            letter-spacing: -0.05em;
+        }
+        .time-part {
+            display: inline;
+        }
+        .colon {
+            margin: 0;
+            padding: 0;
+            margin-left: -0.1em;
+            margin-right: -0.1em;
         }
         @media (orientation: portrait) {
             #clock {
                 font-size: 25vw;
+            }
+        }
+        @media (max-width: 600px) {
+            #clock {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-around;
+                height: 90vh; /* 전체 높이를 90%로 줄여 상하 여백 생성 */
+                padding: 5vh 0; /* 상하 5%씩 패딩 추가 */
+                font-size: 35vw;
+            }
+            .time-part {
+                display: flex;
+                align-items: center;
+            }
+            .colon {
+                display: none;
             }
         }
     </style>
@@ -36,7 +64,13 @@
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
             const seconds = String(now.getSeconds()).padStart(2, '0');
-            document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+            document.getElementById('clock').innerHTML = `
+                <span class="time-part">${hours}</span>
+                <span class="colon">:</span>
+                <span class="time-part">${minutes}</span>
+                <span class="colon">:</span>
+                <span class="time-part">${seconds}</span>
+            `;
         }
         setInterval(updateClock, 1000);
         updateClock(); // 초기 로드 시 즉시 시간 표시
