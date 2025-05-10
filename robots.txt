@@ -1,0 +1,6 @@
+# 큰 글씨 디지털 시계 - SEO 최적화
+User-agent: *
+Allow: /
+
+# 사이트맵 위치
+Sitemap: https://yourdomain.com/sitemap.xml

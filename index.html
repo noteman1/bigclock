@@ -3,66 +3,210 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>큰 글씨 디지털 시계</title>
+    <title>큰 글씨 디지털 시계 | 저시력자를 위한 시계</title>
+    
+    <!-- 메타 설명 태그 (한글) -->
+    <meta name="description" content="저시력자와 약시를 위한 큰 글씨 디지털 시계. 시간을 보기 쉽게 큰 화면으로 표시합니다.">
+    <meta name="keywords" content="큰 글씨 시계, 저시력자를 위한 시계, 약시를 위한 시계, 디지털 시계, 큰 화면 시계, 시력 약한 노인 시계">
+    
+    <!-- 영어 대체 메타 태그 -->
+    <meta name="description" lang="en" content="Large digital clock for visually impaired and people with low vision. Displays time in large font for easy viewing.">
+    <meta name="keywords" lang="en" content="large font clock, clock for visually impaired, low vision clock, digital clock, big screen clock, clock for elderly">
+    
+    <!-- 검색엔진 색인 관련 -->
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://noteman1.github.io/bigclock/">
+    
+    <!-- PWA 관련 메타 태그 -->
     <link rel="manifest" href="/bigclock/manifest.json">
     <meta name="theme-color" content="#000000">
     <link rel="apple-touch-icon" href="/bigclock/icon-192x192.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    
+    <!-- Open Graph 태그 (소셜 미디어 공유용) -->
+    <meta property="og:title" content="큰 글씨 디지털 시계 | 저시력자를 위한 시계">
+    <meta property="og:description" content="저시력자와 약시를 위한 큰 글씨 디지털 시계. 시간을 보기 쉽게 큰 화면으로 표시합니다.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://noteman1.github.io/bigclock/">
+    <meta property="og:image" content="https://noteman1.github.io/bigclock/icon-192x192.png">
+    
+    <!-- Twitter 카드 -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="큰 글씨 디지털 시계 | 저시력자를 위한 시계">
+    <meta name="twitter:description" content="저시력자와 약시를 위한 큰 글씨 디지털 시계">
     <style>
         body, html {
             height: 100%;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             background-color: #000;
             color: #fff;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
         }
+        
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            width: 100%;
+        }
+        
         #clock {
             font-size: 16vw;
             text-align: center;
             white-space: nowrap;
             letter-spacing: -0.05em;
+            margin: 2rem 0;
         }
+        
         .time-part {
             display: inline;
         }
+        
         .colon {
             margin: 0;
             padding: 0;
             margin-left: -0.1em;
             margin-right: -0.1em;
         }
+        
+        #language-toggle {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            z-index: 100;
+        }
+        
+        #help-button {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        
+        #info-panel {
+            position: fixed;
+            bottom: -100%;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            transition: bottom 0.3s ease;
+            z-index: 99;
+            font-size: 1rem;
+            text-align: center;
+        }
+        
+        #info-panel.visible {
+            bottom: 0;
+        }
+        
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+        
         @media (orientation: portrait) {
             #clock {
                 font-size: 25vw;
             }
         }
+        
         @media (max-width: 600px) {
             #clock {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 justify-content: space-around;
-                height: 90vh; /* 전체 높이를 90%로 줄여 상하 여백 생성 */
-                padding: 5vh 0; /* 상하 5%씩 패딩 추가 */
+                height: 80vh;
+                padding: 5vh 0;
                 font-size: 35vw;
             }
+            
             .time-part {
                 display: flex;
                 align-items: center;
             }
+            
             .colon {
                 display: none;
             }
+            
+            #info-panel {
+                font-size: 0.9rem;
+            }
         }
     </style>
+    <!-- 구조화된 데이터 스키마 추가 (Schema.org) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "큰 글씨 디지털 시계",
+      "alternateName": "Large Digital Clock",
+      "description": "저시력자와 약시를 위한 큰 글씨 디지털 시계",
+      "operatingSystem": "Web",
+      "applicationCategory": "UtilityApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "accessibilityFeature": ["largePrint", "highContrast"]
+    }
+    </script>
 </head>
 <body>
-    <div id="clock"></div>
+    <header>
+        <h1 class="visually-hidden">큰 글씨 디지털 시계 - 저시력자를 위한 시계 (Large Digital Clock for Low Vision)</h1>
+    </header>
+    <main>
+        <div id="clock" role="timer" aria-live="polite" aria-label="현재 시간"></div>
+    </main>
+    <footer class="visually-hidden">
+        <p>큰 글씨 디지털 시계 - 약시 및 저시력자를 위한 접근성 있는 시계 앱입니다.</p>
+        <p lang="en">Large Digital Clock - An accessible clock app for people with low vision.</p>
+    </footer>
+    
+    <style>
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+    </style>
     <script>
         // 서비스 워커 등록
         if ('serviceWorker' in navigator) {
@@ -81,16 +225,117 @@
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
             const seconds = String(now.getSeconds()).padStart(2, '0');
+            
+            // 시간 형식의 전체 문자열 (스크린 리더용)
+            const timeString = `${hours}시 ${minutes}분 ${seconds}초`;
+            
             document.getElementById('clock').innerHTML = `
-                <span class="time-part">${hours}</span>
-                <span class="colon">:</span>
-                <span class="time-part">${minutes}</span>
-                <span class="colon">:</span>
-                <span class="time-part">${seconds}</span>
+                <span class="time-part" aria-hidden="true">${hours}</span>
+                <span class="colon" aria-hidden="true">:</span>
+                <span class="time-part" aria-hidden="true">${minutes}</span>
+                <span class="colon" aria-hidden="true">:</span>
+                <span class="time-part" aria-hidden="true">${seconds}</span>
+                <span class="visually-hidden">${timeString}</span>
             `;
+            
+            // 문서 제목에도 현재 시간 표시 (탭에서 볼 수 있음)
+            document.title = `${hours}:${minutes} - 큰 글씨 디지털 시계`;
+            
+            // 접근성 속성 업데이트
+            document.getElementById('clock').setAttribute('aria-label', `현재 시간: ${timeString} (Current time: ${hours}:${minutes}:${seconds})`);
         }
         setInterval(updateClock, 1000);
         updateClock(); // 초기 로드 시 즉시 시간 표시
-    </script>
+        
+        // 언어 설정 및 접근성 관련 기능
+        document.addEventListener('DOMContentLoaded', function() {
+            // 언어 토글 버튼 추가
+            const languageToggle = document.createElement('button');
+            languageToggle.id = 'language-toggle';
+            languageToggle.textContent = 'English';
+            languageToggle.setAttribute('aria-label', '언어 변경 / Change Language');
+            document.body.appendChild(languageToggle);
+            
+            // 도움말 버튼 추가
+            const helpButton = document.createElement('button');
+            helpButton.id = 'help-button';
+            helpButton.textContent = '도움말 / Help';
+            helpButton.setAttribute('aria-label', '도움말 보기 / View Help');
+            document.body.appendChild(helpButton);
+            
+            // 정보 패널 추가
+            const infoPanel = document.createElement('div');
+            infoPanel.id = 'info-panel';
+            infoPanel.innerHTML = `
+                <div lang="ko">
+                    <h2>큰 글씨 디지털 시계</h2>
+                    <p>저시력자와 약시를 위해 설계된 큰 글씨 디지털 시계입니다.</p>
+                    <p>이 앱은 웹 브라우저에서 작동하며 오프라인에서도 사용할 수 있습니다.</p>
+                    <p>화면을 터치하면 전체 화면 모드로 전환됩니다.</p>
+                </div>
+                <div lang="en" style="display: none;">
+                    <h2>Large Digital Clock</h2>
+                    <p>A large font digital clock designed for people with low vision.</p>
+                    <p>This app works in any web browser and can be used offline.</p>
+                    <p>Touch the screen to toggle fullscreen mode.</p>
+                </div>
+                <button id="close-info">닫기 / Close</button>
+            `;
+            document.body.appendChild(infoPanel);
+            
+            // 언어 전환 기능
+            let currentLang = 'ko';
+            languageToggle.addEventListener('click', function() {
+                if (currentLang === 'ko') {
+                    document.querySelectorAll('[lang="ko"]').forEach(el => el.style.display = 'none');
+                    document.querySelectorAll('[lang="en"]').forEach(el => el.style.display = 'block');
+                    languageToggle.textContent = '한국어';
+                    document.documentElement.lang = 'en';
+                    currentLang = 'en';
+                } else {
+                    document.querySelectorAll('[lang="ko"]').forEach(el => el.style.display = 'block');
+                    document.querySelectorAll('[lang="en"]').forEach(el => el.style.display = 'none');
+                    languageToggle.textContent = 'English';
+                    document.documentElement.lang = 'ko';
+                    currentLang = 'ko';
+                }
+            });
+            
+            // 도움말 표시 기능
+            helpButton.addEventListener('click', function() {
+                infoPanel.classList.add('visible');
+            });
+            
+            // 도움말 닫기
+            document.getElementById('close-info').addEventListener('click', function() {
+                infoPanel.classList.remove('visible');
+            });
+            
+            // 전체 화면 전환
+            document.addEventListener('click', function(e) {
+                if (e.target.id !== 'language-toggle' && 
+                    e.target.id !== 'help-button' && 
+                    e.target.id !== 'close-info' &&
+                    !infoPanel.contains(e.target)) {
+                    toggleFullScreen();
+                }
+            });
+            
+            function toggleFullScreen() {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch(err => {
+                        console.log(`전체 화면 모드 오류: ${err.message}`);
+                    });
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
+                }
+            }
+        });
+            </script>
+            
+            <!-- 구글 서치 콘솔 검증을 위한 메타 태그 (실제 사용 시 수정 필요) -->
+            <!-- <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE" /> -->
 </body>
 </html>
