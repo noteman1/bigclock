@@ -2,7 +2,7 @@
     "name": "큰 글씨 디지털 시계",
     "short_name": "Big Clock",
     "description": "전체 화면 큰글씨 디지털 시계 앱",
-    "start_url": "/",
+    "start_url": "/bigclock",
     "display": "fullscreen",
     "background_color": "#000000",
     "theme_color": "#000000",
