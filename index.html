@@ -226,17 +226,28 @@
             const minutes = String(now.getMinutes()).padStart(2, '0');
             const seconds = String(now.getSeconds()).padStart(2, '0');
             
-            // 시간 형식의 전체 문자열 (스크린 리더용)
-            const timeString = `${hours}시 ${minutes}분 ${seconds}초`;
+            // 현재 언어에 따라 시간 문자열 결정
+            const currentLang = document.documentElement.lang || 'ko';
+            let timeString;
             
-            document.getElementById('clock').innerHTML = `
-                <span class="time-part" aria-hidden="true">${hours}</span>
-                <span class="colon" aria-hidden="true">:</span>
-                <span class="time-part" aria-hidden="true">${minutes}</span>
-                <span class="colon" aria-hidden="true">:</span>
-                <span class="time-part" aria-hidden="true">${seconds}</span>
-                <span class="visually-hidden">${timeString}</span>
-            `;
+            if (currentLang === 'ko') {
+                timeString = `${hours}시 ${minutes}분 ${seconds}초`;
+            } else {
+                timeString = `${hours} hours ${minutes} minutes ${seconds} seconds`;
+            }
+            
+            // 시계 요소가 존재하는지 확인
+            const clockElement = document.getElementById('clock');
+            if (clockElement) {
+                clockElement.innerHTML = `
+                    <span class="time-part" aria-hidden="true">${hours}</span>
+                    <span class="colon" aria-hidden="true">:</span>
+                    <span class="time-part" aria-hidden="true">${minutes}</span>
+                    <span class="colon" aria-hidden="true">:</span>
+                    <span class="time-part" aria-hidden="true">${seconds}</span>
+                    <span class="visually-hidden">${timeString}</span>
+                `;
+            }
             
             // 문서 제목에도 현재 시간 표시 (탭에서 볼 수 있음)
             document.title = `${hours}:${minutes} - 큰 글씨 디지털 시계`;
@@ -287,18 +298,37 @@
             let currentLang = 'ko';
             languageToggle.addEventListener('click', function() {
                 if (currentLang === 'ko') {
-                    document.querySelectorAll('[lang="ko"]').forEach(el => el.style.display = 'none');
-                    document.querySelectorAll('[lang="en"]').forEach(el => el.style.display = 'block');
+                    // 정보 패널 내의 한국어 요소만 숨기기
+                    document.querySelectorAll('#info-panel [lang="ko"]').forEach(el => {
+                        el.style.display = 'none';
+                    });
+                    
+                    // 정보 패널 내의 영어 요소만 표시
+                    document.querySelectorAll('#info-panel [lang="en"]').forEach(el => {
+                        el.style.display = 'block';
+                    });
+                    
                     languageToggle.textContent = '한국어';
                     document.documentElement.lang = 'en';
                     currentLang = 'en';
                 } else {
-                    document.querySelectorAll('[lang="ko"]').forEach(el => el.style.display = 'block');
-                    document.querySelectorAll('[lang="en"]').forEach(el => el.style.display = 'none');
+                    // 정보 패널 내의 한국어 요소만 표시
+                    document.querySelectorAll('#info-panel [lang="ko"]').forEach(el => {
+                        el.style.display = 'block';
+                    });
+                    
+                    // 정보 패널 내의 영어 요소만 숨기기
+                    document.querySelectorAll('#info-panel [lang="en"]').forEach(el => {
+                        el.style.display = 'none';
+                    });
+                    
                     languageToggle.textContent = 'English';
                     document.documentElement.lang = 'ko';
                     currentLang = 'ko';
                 }
+                
+                // 언어 전환 후 시계 업데이트
+                updateClock();
             });
             
             // 도움말 표시 기능
