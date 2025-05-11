@@ -1,10 +1,10 @@
 const CACHE_NAME = 'bigclock-v1';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/icon-192x192.png',
-  '/icon-512x512.png'
+  '/bigclock/',
+  '/bigclock/index.html',
+  '/bigclock/manifest.json',
+  '/bigclock/icon-192x192.png',
+  '/bigclock/icon-512x512.png'
 ];
 
 // 서비스워커 설치 및 캐싱
